@@ -63,7 +63,7 @@ def nms(np.ndarray[np.float32_t, ndim=2] dets, np.float thresh):
 
     cdef int ndets = dets.shape[0]
     cdef np.ndarray[np.int_t, ndim=1] suppressed = \
-        np.zeros((ndets), dtype=np.int)
+        np.zeros((ndets), dtype=int)
 
     # nominal indices
     cdef int _i, _j
@@ -105,7 +105,7 @@ def nms(np.ndarray[np.float32_t, ndim=2] dets, np.float thresh):
     return keep
 
 
-cdef inline np.int vertical_similarity(np.ndarray[np.float32_t, ndim=1] box1, np.ndarray[np.float32_t, ndim=1] box2, np.float iou_thresh):
+cdef inline int vertical_similarity(np.ndarray[np.float32_t, ndim=1] box1, np.ndarray[np.float32_t, ndim=1] box2, np.float iou_thresh):
 
     cdef float intersec_height = min(box1[3], box2[3]) - max(box1[1], box2[1])
     cdef float union_height = max(box1[3], box2[3]) - min(box1[1], box2[1])
@@ -116,7 +116,7 @@ cdef inline np.int vertical_similarity(np.ndarray[np.float32_t, ndim=1] box1, np
         return 0####
 
 
-def box_connect(np.ndarray[np.float32_t, ndim=2] imageIntegral, np.ndarray[np.float32_t, ndim=2] anchors_in, np.int h_gap, np.int width, np.int height):
+def box_connect(np.ndarray[np.float32_t, ndim=2] imageIntegral, np.ndarray[np.float32_t, ndim=2] anchors_in, int h_gap, int width, int height):
     """
 
     :param imageIntegral:

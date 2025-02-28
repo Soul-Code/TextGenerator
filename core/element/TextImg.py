@@ -174,7 +174,10 @@ def calc_bg_size(font_path: str,
         char_bg_w = 0
         char_bg_h = 0
         try:
-            char_bg_w, char_bg_h = font.getsize(char_obj.char)
+            # char_bg_w, char_bg_h = font.getsize(char_obj.char)
+            char_bbox = font.getbbox(char_obj.char)
+            char_bg_w = char_bbox[2] - char_bbox[0]
+            char_bg_h = char_bbox[3] - char_bbox[1]
 
             # 加上边框尺寸
             char_bg_w += char_obj.border_width * 2

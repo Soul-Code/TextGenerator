@@ -1,4 +1,4 @@
-from ruamel import yaml
+from ruamel.yaml import YAML
 
 from service.provider.TextImgProvider import TextImgProvider
 from service.provider.BackgroundImgProvider import BackgroundImgProvider
@@ -36,8 +36,9 @@ def load_from_config():
 def init_config():
     log.info("load config")
     global conf
+    yaml = YAML(typ='rt')
     with open(os.path.join(basedir, "config.yml"), 'r') as f:
-        conf = yaml.load(f.read(), Loader=yaml.Loader)
+        conf = yaml.load(f)
         load_from_config()
 
 
@@ -53,8 +54,12 @@ def run():
         traceback.print_exc()
 
 
-def start():
+def start(debug=False):
     init()
+    if debug:
+        run()
+        exit(0)
+    
     process_count = conf['base']['process_count']
     print('Parent process {pid}.'.format(pid=os.getpid()))
     print('process count : {process_count}'.format(process_count=process_count))
